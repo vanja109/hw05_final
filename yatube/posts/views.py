@@ -10,11 +10,13 @@ from .models import Follow, Group, Post, User
 
 User = get_user_model()
 
+
 def paginator(request, posts_list):
     paginator = Paginator(posts_list, settings.POSTS_NUM)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return page_obj
+
 
 @cache_page(timeout=20, key_prefix='index_page')
 def index(request):
@@ -24,6 +26,7 @@ def index(request):
     }
     return render(request, 'posts/index.html', context)
 
+
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     posts_list = group.posts.select_related('author')
@@ -32,6 +35,7 @@ def group_posts(request, slug):
         'page_obj': paginator(request, posts_list),
     }
     return render(request, 'posts/group_list.html', context)
+
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
@@ -49,6 +53,7 @@ def profile(request, username):
     }
     return render(request, 'posts/profile.html', context)
 
+
 def post_detail(request, post_id):
     queryset = Post.objects.select_related('group', 'author')
     posts_list = get_object_or_404(queryset, pk=post_id)
@@ -61,6 +66,7 @@ def post_detail(request, post_id):
     }
     return render(request, 'posts/post_detail.html', context)
 
+
 @login_required
 def post_create(request):
     form = PostForm(request.POST or None, files=request.FILES or None)
@@ -70,6 +76,7 @@ def post_create(request):
         post.save()
         return redirect('posts:profile', username=request.user)
     return render(request, 'posts/post_form.html', {'form': form})
+
 
 @login_required
 def post_edit(request, post_id):
@@ -92,6 +99,7 @@ def post_edit(request, post_id):
         return redirect('posts:post_detail', post.pk)
     return render(request, 'posts/post_form.html', context)
 
+
 @login_required
 def add_comment(request, post_id):
     queryset = Post.objects.select_related()
@@ -104,13 +112,15 @@ def add_comment(request, post_id):
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
 
+
 @login_required
-def follow_index(request):   
+def follow_index(request):
     post_list = Post.objects.filter(author__following__user=request.user)
-    context = {        
+    context = {
         'page_obj': paginator(request, post_list),
     }
     return render(request, 'posts/follow.html', context)
+
 
 @login_required
 def profile_follow(request, username):
@@ -118,6 +128,7 @@ def profile_follow(request, username):
     if request.user != author:
         Follow.objects.get_or_create(user=request.user, author=author)
     return redirect('posts:profile', username=username)
+
 
 @login_required
 def profile_unfollow(request, username):

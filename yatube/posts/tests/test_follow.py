@@ -6,6 +6,7 @@ from ..models import Follow, Post
 
 User = get_user_model()
 
+
 class FollowTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -57,7 +58,7 @@ class FollowTests(TestCase):
         self.assertEqual(Follow.objects.count(), 1)
         form_data = {'text': 'follow_test'}
         self.following_cl.post(
-            reverse('posts:post_create'), data = form_data, follow=True
+            reverse('posts:post_create'), data=form_data, follow=True
         )
         response = self.follow_user_cl.get(reverse('posts:follow_index'))
         self.assertContains(response, 'follow_test')

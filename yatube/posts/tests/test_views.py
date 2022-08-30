@@ -63,7 +63,7 @@ class PostPagesTests(TestCase):
         self.assertEqual(post.pub_date, self.posts.pub_date)
 
     def test_index_context(self):
-        """Соответветствие словаря context в index"""        
+        """Соответветствие словаря context в index"""
         response = (self.authorized_client.get(reverse('posts:index')))
         post = response.context['page_obj'][0]
         self.func_assert_equal(post)

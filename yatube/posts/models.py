@@ -40,11 +40,12 @@ class Post(models.Model):
     class Meta:
         ordering = ('-pub_date',)
 
+
 class Comment(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name = 'comments'
+        related_name='comments'
     )
     author = models.ForeignKey(
         User,
@@ -56,6 +57,7 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.text
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
