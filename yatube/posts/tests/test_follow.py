@@ -1,12 +1,8 @@
-# Напишите тесты, проверяющие работу нового сервиса:
-# Авторизованный пользователь может подписываться на других пользователей и удалять их из подписок.
-# Новая запись пользователя появляется в ленте тех, кто на него подписан и не появляется в ленте тех, кто не подписан.
-
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
-from ..models import Follow, Post
 from django.urls import reverse
 
+from ..models import Follow, Post
 
 User = get_user_model()
 
