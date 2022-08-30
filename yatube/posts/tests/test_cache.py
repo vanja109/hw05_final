@@ -32,4 +32,5 @@ class CacheTests(TestCase):
         self.assertEqual(Post.objects.count(), post_count - 1)
         response = self.guest_client.get('/')
         cache.clear()
+        response = self.guest_client.get('/')
         self.assertNotEqual(cached_response_content, response.content)

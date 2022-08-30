@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.test import TestCase
 from django.urls import reverse
 from posts.models import Group, Post
@@ -27,6 +28,7 @@ class PaginatorTests(TestCase):
         cls.first_post = cls.posts[0]
 
     def test_paginator_index_first(self):
+        cache.clear()
         response = self.client.get(reverse('posts:index'))
         self.assertEqual(len(response.context['page_obj']),
                          settings.POSTS_NUM)
