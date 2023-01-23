@@ -7,9 +7,6 @@
 - Python 3.7 
 - Django 2.2 
 - Pillow 8.3 
-- Pytest 6.2 
-- Requests 2.26 
-- Sorl-thumbnail 12.7
 
 ### **Запуск проекта в dev-режиме**
 Инструкция ориентирована на операционную систему windows и утилиту git bash.<br/>
